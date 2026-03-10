@@ -5,6 +5,7 @@ let x2;
 let scrollSpeed = 5;
 let thiefImage1;
 let thiefImage2;
+let thief;
 
 function preload() {
   backgroundImage = loadImage('Images/background.png');
@@ -14,6 +15,7 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   calculateBackgroundImageDimensions();
+  thief = new Thief();
 }
 
 function draw() {
@@ -28,6 +30,7 @@ function draw() {
   if (x2 <= -scaledBackgroundImageWidth) {
     x2 = scaledBackgroundImageWidth-scrollSpeed;
   }
+  thief.show();
 }
 
 function windowResized() {
@@ -44,13 +47,14 @@ function calculateBackgroundImageDimensions() {
 
 class Thief {
   constructor() {
-    this.size = 50;
+    this.spriteHeight = 150;
+    this.spriteWidth = 100;
     this.x = 50;
-    this.y = height-this.size-100;
+    this.y = height-this.spriteHeight-100;
     this.vy = 0;
     this.gravity = 0.8;
-    show() {
-      image(thiefImage1, this.x, this.y, this.size, this.size);
-    }
+  }
+  show() {
+    image(thiefImage1, this.x, this.y, this.spriteWidth, this.spriteHeight);
   }
 }
