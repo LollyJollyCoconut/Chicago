@@ -9,8 +9,8 @@ let thief;
 
 function preload() {
   backgroundImage = loadImage('Images/background.png');
-  thiefImage1 = loadImage("Images/Thief Animation 1.png");
-  thiefImage2 = loadImage("Images/Thief Animation 2.png");
+  thiefImage1 = loadImage("Images/thief 1.png");
+  thiefImage2 = loadImage("Images/thief 2.png");
 }
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -50,11 +50,18 @@ class Thief {
     this.spriteHeight = 150;
     this.spriteWidth = 100;
     this.x = 50;
-    this.y = height-this.spriteHeight-100;
+    this.groundY = height - this.spriteHeight - 100
+    this.y = this.groundY;
     this.vy = 0;
-    this.gravity = 0.8;
+    this.gravity = 1.5;
   }
   show() {
     image(thiefImage1, this.x, this.y, this.spriteWidth, this.spriteHeight);
+  }
+
+  jump() {
+    if (this.y == this.groundY) {
+      this.vy = -25;
+    }
   }
 }
