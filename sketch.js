@@ -6,6 +6,7 @@ let scrollSpeed = 5;
 let thiefImage1;
 let thiefImage2;
 let thief;
+let policeImages = [];
 
 function preload() {
   backgroundImage = loadImage('Images/background.png');
@@ -30,6 +31,7 @@ function draw() {
   if (x2 <= -scaledBackgroundImageWidth) {
     x2 = scaledBackgroundImageWidth-scrollSpeed;
   }
+  thief.update();
   thief.show();
 }
 
@@ -44,6 +46,12 @@ function calculateBackgroundImageDimensions() {
   x1 = 0;
   x2 = scaledBackgroundImageWidth;
 }
+function keyPressed() {
+  console.log(keyCode);
+  if (keyCode === 32) {
+    thief.jump();
+  }
+}
 
 class Thief {
   constructor() {
@@ -54,14 +62,30 @@ class Thief {
     this.y = this.groundY;
     this.vy = 0;
     this.gravity = 1.5;
+    this.currentImage = thiefImage1;
   }
   show() {
-    image(thiefImage1, this.x, this.y, this.spriteWidth, this.spriteHeight);
+    if (this.y == this.groundY) {
+      if (frameCount % 10 == 0){
+        if (this.currentImage === thiefImage1) {
+          this.currentImage = thiefImage2;
+        }
+        else {
+          this.currentImage = thiefImage1;
+        }
+      }
+    }
+    image(this.currentImage, this.x, this.y, this.spriteWidth, this.spriteHeight);
   }
 
   jump() {
     if (this.y == this.groundY) {
       this.vy = -25;
     }
+  }
+  update() {
+    this.y += this.vy;
+    this.vy += this.gravity;
+    this.y = constrain(this.y, 0, this.groundY);
   }
 }
