@@ -7,7 +7,9 @@ let thiefImage1;
 let thiefImage2;
 let thief;
 let policeImages = [];
-let collectible;
+let collectible1;
+let collectible2;
+let groundY;
 
 function preload() {
   backgroundImage = loadImage('Images/background.png');
@@ -41,8 +43,10 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   calculateBackgroundImageDimensions();
+  groundY = height-250;
   thief = new Thief();
-  collectible = new Money();
+  collectible1 = new Money(width + 100, groundY + 100);
+  collectible2 = new Money(width - scaledBackgroundImageWidth/2, groundY - 200);
 }
 
 function draw() {
@@ -59,7 +63,10 @@ function draw() {
   }
   thief.update();
   thief.show();
-  collectible.show()
+  collectible1.update();
+  collectible2.update();
+  collectible1.show();
+  collectible2.show();
 }
 
 function windowResized() {
@@ -118,27 +125,49 @@ class Thief {
 }
 
 class Money {
-  constructor() {
-    this.spriteHeight = 50;
-    this.spriteWidth = 50;
-    this.x = width/2;
-    this.y = height/2;
-    this.currentImage = money;
+  constructor(startX, startY) {
+    this.spriteHeight = 30;
+    this.spriteWidth = 30;
+    this.x = startX;
+    this.y = startY;
+    this.currentImage = diamond;
     this.type = "coin";
   }
+
+  update() {
+    this.x -= scrollSpeed;
+    if (this.x <= -scaledBackgroundImageWidth) {
+      this.x = scaledBackgroundImageWidth-scrollSpeed;
+      this.restart();
+    }
+  }
+
   show() {
     image(this.currentImage, this.x, this.y, this.spriteWidth, this.spriteHeight);
   }
   changeType() {
-    if (this.type == "coin") {
+    let randomNumber = random(0, 100);
+    if (randomNumber <= 70) {
+      this.type = "coin";
       this.currentImage = coin;
       this.spriteWidth = 60;
       this.spriteHeight = 60;
     }
-    else if (this.type == "money") {
+    else if (randomNumber <= 95) {
+      this.type = "money";
       this.currentImage = money;
       tbis.spriteWidth = 50;
       this.spriteHeight = 50;
     }
+    else {
+      this.type = "diamond";
+      this.currentImage = diamond;
+      this.spriteWidth = 30;
+      this.spriteHeight = 30;
+    }
+  }
+  restart() {
+    this.changeType();
+    this.y = random(groundY - 200, groundY + 100);
   }
 }
