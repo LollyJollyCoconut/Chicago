@@ -10,8 +10,14 @@ let policeImages = [];
 let collectible1;
 let collectible2;
 let groundY;
+let score = 0;
+let myFont;
+let level = 1;
+let hpValue = 3;
+let hpString = `❤️❤️❤️`;
 
 function preload() {
+  myFont = loadFont(`font.ttf`);
   backgroundImage = loadImage('Images/background.png');
   thiefImage1 = loadImage("Images/thief 1.png");
   thiefImage2 = loadImage("Images/thief 2.png");
@@ -67,6 +73,8 @@ function draw() {
   collectible2.update();
   collectible1.show();
   collectible2.show();
+  showScore();
+  showLevel();
 }
 
 function windowResized() {
@@ -85,6 +93,24 @@ function keyPressed() {
   if (keyCode === 32) {
     thief.jump();
   }
+}
+
+function showScore () {
+  textSize(36);
+  textAlign(LEFT);
+  fill (255);
+  textFont(myFont);
+  text(`Score: ${score}`, 50, 50);
+}
+
+function showLevel() {
+  textAlign(CENTER);
+  text(`Level: ${level}`, width/2, 50);
+}
+
+function showHP() {
+  textAlign(RIGHT);
+  text(hpString, width - 50, 50);
 }
 
 class Thief {
@@ -156,7 +182,7 @@ class Money {
     else if (randomNumber <= 95) {
       this.type = "money";
       this.currentImage = money;
-      tbis.spriteWidth = 50;
+      this.spriteWidth = 50;
       this.spriteHeight = 50;
     }
     else {
