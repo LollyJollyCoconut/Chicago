@@ -14,10 +14,12 @@ let score = 0;
 let myFont;
 let level = 1;
 let hpValue = 3;
-let hpString = `❤️❤️❤️`;
+let hpString = `❤️❤️💔`;
+let emojiFont;
 
 function preload() {
   myFont = loadFont(`font.ttf`);
+  emojiFont = loadFont('emoji.ttf');
   backgroundImage = loadImage('Images/background.png');
   thiefImage1 = loadImage("Images/thief 1.png");
   thiefImage2 = loadImage("Images/thief 2.png");
@@ -45,6 +47,7 @@ function preload() {
   blackGuy = loadImage("Images/black.png");
   greenGuy = loadImage("Images/green.png");
   scooter = loadImage("Images/scooter.png");
+  brokenHeart = loadImage('Images/broken heart.png');
 }
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -75,6 +78,7 @@ function draw() {
   collectible2.show();
   showScore();
   showLevel();
+  showHP();
 }
 
 function windowResized() {
@@ -104,11 +108,16 @@ function showScore () {
 }
 
 function showLevel() {
+  textSize(36);
+  fill(255);
+  textFont(myFont);
   textAlign(CENTER);
   text(`Level: ${level}`, width/2, 50);
 }
 
 function showHP() {
+  textSize(36);
+  textFont(emojiFont);
   textAlign(RIGHT);
   text(hpString, width - 50, 50);
 }
